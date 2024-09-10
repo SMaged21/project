@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:online_shopping/firebase/firestore.dart';
 import 'package:online_shopping/model/User.dart';
@@ -12,34 +12,30 @@ class Profilescreen extends StatefulWidget {
 }
 
 class _ProfilescreenState extends State<Profilescreen> {
-  String userId = FirebaseAuth.instance.currentUser!.uid;
+  @override
+  void initState() {
+    super.initState();
+    _getUserInfo();
+    print("=================");
+  }
+
+  Future<void> _getUserInfo() async {
+    await FireStore.getUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: FutureBuilder<User1?>(
-        future: FireStore.getUserInfo(userId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          User1 user = snapshot.data ??
-              User1(name: "salma", phoneNumber: "01004691832", age: "21");
-
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                header(context),
-                Body(user),
-                SizedBox(height: 20),
-                tail(context, user),
-              ],
-            ),
-          );
-        },
+            child: SingleChildScrollView(
+      child: Column(
+        children: [
+          header(context),
+          Body(User1.name, User1.phoneNumber),
+          SizedBox(height: 20),
+          tail(context, User1.age),
+        ],
       ),
-    ));
+    )));
   }
 }

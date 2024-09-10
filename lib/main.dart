@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:online_shopping/SplachScreen.dart';
 import 'package:online_shopping/bloc/cubitProfile/CubitProfile.dart';
-
 import 'package:online_shopping/bloc/cubit_signIn/cubit_signin.dart';
 import 'package:online_shopping/bloc/cubit_signup/cubit_signup.dart';
 import 'package:online_shopping/firebase/auth.dart';

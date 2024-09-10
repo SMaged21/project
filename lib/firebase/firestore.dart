@@ -12,14 +12,14 @@ class FireStore {
     print("added");
   }
 
-  // static Future<void> AddUserInfo(
-  //     String name, String phoneNumber, String age) async {
-  //   await FirebaseFirestore.instance
-  //       .collection("Users")
-  //       .doc(auth.currentUser!.uid)
-  //       .set({'name': name, 'phoneNumber': phoneNumber, 'age': age});
-  //   print("added");
-  // }
+  static Future<void> AddUserInfo(
+      String name, String phoneNumber, String age) async {
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(auth.currentUser!.uid)
+        .set({'name': name, 'phoneNumber': phoneNumber, 'age': age});
+    print("added");
+  }
 
   static Future<List<Product>> getProducts(String productType) async {
     try {
@@ -37,24 +37,24 @@ class FireStore {
     }
   }
 
-  static Future<User1?> getUserInfo(String userId) async {
+  static Future<void> getUserInfo() async {
     try {
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
+          .collection("Users")
+          .doc(auth.currentUser!.uid)
           .get();
 
       if (snapshot.exists) {
-        Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-        return User1(
-          name: data['name'] ?? '',
-          phoneNumber: data['phoneNumber'] ?? '',
-          age: data['age'] ?? '',
-        );
+        // Extract data and assign to User1 class
+        var data = snapshot.data() as Map<String, dynamic>;
+        User1.name = data['name'] ?? 'No Name';
+        User1.phoneNumber = data['phoneNumber'] ?? 'No Phone';
+        User1.age = data['age'] ?? 'No Age';
+      } else {
+        print("No user data found!");
       }
     } catch (e) {
-      print('Error fetching user info: $e');
+      print("Error getting document: $e");
     }
-    return null;
   }
 }
